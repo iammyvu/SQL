@@ -1,0 +1,44 @@
+--What's the most expensive listing? What else can you tell me about the listing?
+SELECT 
+	id,
+	minimum_nights,
+	price most_expensive
+FROM
+	sfo_listings
+WHERE minimum_nights = 1
+GROUP BY 1,2, 3
+ORDER BY 3 DESC
+LIMIT 2;
+
+--The most expensive listing has id = 14887262. It is a bright private room in the Parkside, hosted by Marcel, at $8000/night.
+
+
+--What neighborhoods seem to be the most popular?
+SELECT
+	neighbourhood,
+	COUNT(number_of_reviews)
+FROM
+	sfo_listings
+GROUP BY 1
+ORDER BY 2 DESC;
+
+--The most popular neighborhoods are Mission, Western Addition, South of Market, and Downtown/Civic Center.
+
+--What time of year is the cheapest time to go to San Francisco? What about the busiest?
+SELECT
+	sc.listing_id,
+	sc.calender_date,
+	sc.price,
+	sl.minimum_nights
+FROM 
+	sfo_calendar sc
+JOIN 
+	sfo_listings sl
+ON
+	sc.listing_id = sl.id
+WHERE 
+	minimum_nights=1
+GROUP BY 1,2,3,4
+ORDER BY 3;
+
+
