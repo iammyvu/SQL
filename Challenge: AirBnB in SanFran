@@ -24,7 +24,7 @@ ORDER BY 2 DESC;
 
 --The most popular neighborhoods are Mission, Western Addition, South of Market, and Downtown/Civic Center.
 
---What time of year is the cheapest time to go to San Francisco? What about the busiest?
+--What time of year is the cheapest time to go to San Francisco?
 SELECT
 	sc.listing_id,
 	sc.calender_date,
@@ -41,4 +41,20 @@ WHERE
 GROUP BY 1,2,3,4
 ORDER BY 3;
 
+
+-- What about the busiest time to go to San Francisco?
+WITH price AS(
+	SELECT calender_date date,
+			available available
+	FROM sfo_calendar
+	-- f = occupied
+	WHERE available = 'f'
+)
+SELECT date,
+		COUNT(available)
+FROM price
+GROUP BY 1
+ORDER BY 2 DESC;
+
+-- The busiest time to go to San Francisco is September. 
 
