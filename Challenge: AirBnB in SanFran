@@ -26,20 +26,16 @@ ORDER BY 2 DESC;
 
 --What time of year is the cheapest time to go to San Francisco?
 SELECT
-	sc.listing_id,
-	sc.calender_date,
-	sc.price,
-	sl.minimum_nights
-FROM 
-	sfo_calendar sc
-JOIN 
-	sfo_listings sl
-ON
-	sc.listing_id = sl.id
-WHERE 
-	minimum_nights=1
-GROUP BY 1,2,3,4
-ORDER BY 3;
+	EXTRACT(MONTH FROM sfo_calendar.calender_date) as month,
+	AVG(CAST(REPLACE(SUBSTR(sfo_calendar.price,2),',','') as FLOAT)) as average_price
+FROM
+	sfo_calendar
+WHERE
+	price IS NOT NULL
+GROUP BY
+	1
+ORDER BY 2;
+-- Cheapest time to go to San Francisco is January.
 
 
 -- What about the busiest time to go to San Francisco?
